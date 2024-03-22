@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -69,11 +68,10 @@ public class CustomAdapter extends BaseAdapter {
 //        holder.ivAvtar.setImageResource(model.getImage());
         String imageUrl = model.getAvatar();
 
-            if (imageUrl != null && !imageUrl.isEmpty()) {
-                Glide.with(context)
-                        .load(imageUrl)
-                        .into(holder.ivAvtar);
-            }
+        Glide.with(context)
+                .load(imageUrl)
+                .into(holder.ivAvtar);
+
         return v;
     }
 }
