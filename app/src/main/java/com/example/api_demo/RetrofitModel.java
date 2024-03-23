@@ -1,5 +1,4 @@
 package com.example.api_demo;
-
 import java.util.ArrayList;
 
 public class RetrofitModel {
@@ -7,7 +6,17 @@ public class RetrofitModel {
     public int per_page;
     public int total;
     public int total_pages;
-    public  ArrayList<data> data;
+    public  ArrayList<Data> data;
+    private Support support;
+
+    public Support getSupport() {
+        return support;
+    }
+
+    public void setSupport(Support support) {
+        this.support = support;
+    }
+
 
     public int getPage() {
         return page;
@@ -25,7 +34,7 @@ public class RetrofitModel {
         return total_pages;
     }
 
-    public  ArrayList<data> getData() {
+    public  ArrayList<Data> getData() {
         return data;
     }
 
@@ -45,11 +54,11 @@ public class RetrofitModel {
         this.total_pages = total_pages;
     }
 
-    public void setData(ArrayList<data> data) {
+    public void setData(ArrayList<Data> data) {
         this.data = data;
     }
 
-    public class data {
+    public static class Data {
         public int id;
         public String email;
         public String first_name;
@@ -96,4 +105,26 @@ public class RetrofitModel {
             this.avatar = image;
         }
     }
+    public class Support{
+        public String url;
+        public String text;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+    }
+
 }

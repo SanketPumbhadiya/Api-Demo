@@ -8,13 +8,11 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.api_demo.RetrofitModel.data;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.example.api_demo.RetrofitModel.Data;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listView;
     CustomAdapter customAdapter;
-    ArrayList<data> model;
+    ArrayList<Data> model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +36,19 @@ public class MainActivity extends AppCompatActivity {
         model = new ArrayList<>();
         customAdapter = new CustomAdapter(this, model);
         listView.setAdapter(customAdapter);
+
+//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+//        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        httpClient.addInterceptor(loggingInterceptor);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RetrofitApi.Url)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+
 
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
         Call<String> call = retrofitApi.GetRetrofitApi();
@@ -52,24 +58,28 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("OnResponse", "OnResponse Function Call ");
                 if (response.isSuccessful() && response.body() != null) {
 //                    Log.w("OnResponseBody", response.body());
-                    Gson gson = new Gson();
+//                    Gson gson = new Gson();
                     String modelResponse = response.body();
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try {
+                        RetrofitModel dataModel = objectMapper.readValue(modelResponse, RetrofitModel.class);
 
-                    RetrofitModel dataModel = gson.fromJson(modelResponse, RetrofitModel.class);
+                        model.addAll(dataModel.getData());
+                        customAdapter.notifyDataSetChanged();
 
-                    model.addAll(dataModel.getData());
-                    customAdapter.notifyDataSetChanged();
-                    Toast.makeText(MainActivity.this, "Data Fetched", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Data Fetched", Toast.LENGTH_SHORT).show();
 
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 Toast.makeText(MainActivity.this, "Data not Fetch", Toast.LENGTH_SHORT).show();
+                Log.e("OnFailure", "Failed to fetch data: " + t.getMessage());
             }
         });
-
-
     }
 }

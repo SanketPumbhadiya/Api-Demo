@@ -50,12 +50,15 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
-    //for gson threw parsing data
+    //for gson library
     implementation ("com.google.code.gson:gson:2.8.9")
 
 
-    //for Jackson threw parsing data
-    //jackson parser
+    //for Jackson library
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.12.5")
+    implementation ("com.fasterxml.jackson.core:jackson-annotations:2.12.5")
+    implementation ("com.fasterxml.jackson.core:jackson-core:2.12.5")
+
     implementation ("com.squareup.retrofit2:converter-jackson:2.7.2")
 
 

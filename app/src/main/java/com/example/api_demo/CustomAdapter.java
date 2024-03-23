@@ -1,8 +1,6 @@
 package com.example.api_demo;
 
 import android.app.Activity;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +14,9 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter {
     Activity context;
-    ArrayList<RetrofitModel.data> modelList;
+    ArrayList<RetrofitModel.Data> modelList;
 
-    public CustomAdapter(Activity context, ArrayList<RetrofitModel.data> model) {
+    public CustomAdapter(Activity context, ArrayList<RetrofitModel.Data> model) {
         this.context = context;
         this.modelList = model;
     }
@@ -61,8 +59,7 @@ public class CustomAdapter extends BaseAdapter {
             holder = (ViewHolder) v.getTag();
         }
 
-        RetrofitModel.data model = modelList.get(position);
-
+        RetrofitModel.Data model = modelList.get(position);
 
         holder.tvId.setText(String.valueOf(model.getId()));
         holder.tvFirstname.setText(model.getFirst_name());
