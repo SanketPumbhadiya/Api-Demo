@@ -6,5 +6,5 @@ import retrofit2.http.GET;
 public interface RetrofitApi {
     String Url = "https://reqres.in/api/";
     @GET("users?page=1")
-    Call<Model> GetRetrofitApi();
+    Call<String> GetRetrofitApi();
 }
