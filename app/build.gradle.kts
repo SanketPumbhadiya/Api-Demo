@@ -58,8 +58,12 @@ dependencies {
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.12.5")
     implementation ("com.fasterxml.jackson.core:jackson-annotations:2.12.5")
     implementation ("com.fasterxml.jackson.core:jackson-core:2.12.5")
-
     implementation ("com.squareup.retrofit2:converter-jackson:2.7.2")
+
+    //for volley library
+    implementation ("com.android.volley:volley:1.2.1")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
 
 
 

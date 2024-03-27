@@ -1,12 +1,17 @@
 package com.example.api_demo;
+
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 public class RetrofitModel {
     public int page;
     public int per_page;
     public int total;
+
     public int total_pages;
-    public  ArrayList<Data> data;
+    @SerializedName("data")
+    public ArrayList<Data> data;
     private Support support;
 
     public Support getSupport() {
@@ -34,7 +39,7 @@ public class RetrofitModel {
         return total_pages;
     }
 
-    public  ArrayList<Data> getData() {
+    public ArrayList<Data> getData() {
         return data;
     }
 
@@ -64,6 +69,14 @@ public class RetrofitModel {
         public String first_name;
         public String last_name;
         public String avatar;
+
+        public Data(int id, String email, String first_name, String last_name, String avatar) {
+            this.id = id;
+            this.email = email;
+            this.first_name = first_name;
+            this.last_name = last_name;
+            this.avatar = avatar;
+        }
 
         public int getId() {
             return id;
@@ -105,7 +118,8 @@ public class RetrofitModel {
             this.avatar = image;
         }
     }
-    public class Support{
+
+    public class Support {
         public String url;
         public String text;
 
