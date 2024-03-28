@@ -1,25 +1,21 @@
 package com.example.api_demo;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.example.api_demo.RetrofitModel.Data;
 
 import java.util.ArrayList;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,45 +31,41 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         responseModel = new ArrayList<>();
 
-        String url = "https://reqres.in/api/users?Page=2/";
+        String myUrl = "https://reqres.in/api/users?page=2";
 
+        HttpRequest httpRequest = new HttpRequest(this);
+        httpRequest.execute(myUrl);
 
-        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+    }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.w("onResponse", "onResponse function call");
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jObject = jsonArray.getJSONObject(i);
-                                int id = jObject.getInt("id");
-                                String fName = jObject.getString("first_name");
-                                String lName = jObject.getString("last_name");
-                                String email = jObject.getString("email");
-                                String image = jObject.getString("avatar");
+    public void onResponse(String response) {
+        try {
 
-                                Data modelData = new Data(id, email, fName, lName, image);
-                                responseModel.add(modelData);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            Log.d("onResponse : ", response);
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+                int id = object.getInt("id");
+                String firstName = object.getString("first_name");
+                String lastName = object.getString("last_name");
+                String email = object.getString("email");
+                String image = object.getString("avatar");
+                Data modelData = new Data(id, email, firstName, lastName, image);
+                responseModel.add(modelData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        customAdapter = new CustomAdapter(this, responseModel);
+        listView.setAdapter(customAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.create();
 
-                        customAdapter = new CustomAdapter(MainActivity.this, responseModel);
-                        listView.setAdapter(customAdapter);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                });
-
-        queue.add(stringRequest);
+            }
+        });
     }
 }
