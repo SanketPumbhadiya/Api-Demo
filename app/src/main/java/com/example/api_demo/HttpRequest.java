@@ -17,6 +17,7 @@ public class HttpRequest extends AsyncTask<String, Void, String> {
     public HttpRequest(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
+
     @Override
     protected String doInBackground(String... strings) {
         String myUrl = strings[0];
